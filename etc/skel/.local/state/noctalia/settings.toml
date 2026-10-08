@@ -1,0 +1,131 @@
+config_version = 14
+
+[bar.default]
+center = [ "clock", "screenshot" ]
+end = [
+    "media",
+    "tray",
+    "notifications",
+    "clipboard",
+    "network",
+    "bluetooth",
+    "volume",
+    "brightness",
+    "battery",
+    "power-profile",
+    "control-center",
+    "session"
+]
+start = [ "launcher", "wallpaper", "workspaces", "bar" ]
+
+[brightness]
+enable_ddcutil = true
+
+[hooks]
+colors_changed = 'umbriel msg reload 2>/dev/null'
+
+[location]
+auto_locate = true
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@DP-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 1024.0
+    cy = 1006.4000244140625
+    output = "DP-1"
+    placement_height = 1152.0
+    placement_width = 2048.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[osd]
+scale = 1.2500000111758709
+
+[plugins]
+enabled = [ "yogaeru/umbriel_layout", "noctalia/umbriel-companion" ]
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/yogaeru/noctalia-plugins"
+    name = "yogaeru"
+
+[shell]
+polkit_agent = true
+
+    [shell.greeter_sync]
+    auto_sync = true
+    privilege_command = "pkexec"
+
+[theme]
+shell_mode = "dark"
+source = "wallpaper"
+
+    [theme.templates]
+    builtin_ids = [ "umbriel" ]
+
+[wallpaper]
+directory = "/usr/share/backgrounds/umbriel"
+
+    [wallpaper.default]
+    path = "/usr/share/backgrounds/umbriel/void_br_wallpaper_2047x1310.png"
+
+    [wallpaper.last]
+    path = "/usr/share/backgrounds/umbriel/void_br_wallpaper_2047x1310.png"
+
+    [wallpaper.monitors.DP-1]
+    path = "/usr/share/backgrounds/umbriel/void_br_wallpaper_2047x1310.png"
+
+    [[wallpaper.favorite]]
+    path = "/usr/share/backgrounds/umbriel/void_br_wallpaper_2047x1310.png"
+    theme_mode = "dark"
+
+[weather]
+effects = true
+enabled = true
+refresh_minutes = 30
+unit = "celsius"
+
+[widget.bar]
+type = "noctalia/umbriel-companion:bar"
+
+[widget.keybinds]
+type = "kenn/keybind-cheatsheet:keybinds"
+
+[widget.widget]
+type = "yogaeru/umbriel_layout:widget"

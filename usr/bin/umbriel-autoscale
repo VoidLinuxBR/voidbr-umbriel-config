@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+# ==============================================================================
+# Umbriel Auto-Scale Daemon
+# Detecta monitores 2K (1440p) ou 4K e ajusta a escala automaticamente se estiver em 1.0
+# ==============================================================================
+import json
+import subprocess
+import time
+import sys
+
+def autoscale():
+    try:
+        res = subprocess.run(["wlr-randr", "--json"], capture_output=True, text=True)
+        if res.returncode != 0 or not res.stdout:
+            return
+        outputs = json.loads(res.stdout)
+        for out in outputs:
+            if not out.get("enabled", False):
+                continue
+            name = out.get("name")
+            if not name:
+                continue
+            current_mode = None
+            for m in out.get("modes", []):
+                if m.get("current", False):
+                    current_mode = m
+                    break
+            if not current_mode:
+                continue
+            width = current_mode.get("width", 0)
+            scale = out.get("scale", 1.0)
+            if scale == 1.0:
+                if width >= 3840:
+                    subprocess.run(["wlr-randr", "--output", name, "--scale", "2.0"])
+                elif width >= 2560:
+                    subprocess.run(["wlr-randr", "--output", name, "--scale", "1.25"])
+    except Exception:
+        pass
+
+if __name__ == "__main__":
+    time.sleep(1.2)
+    autoscale()
