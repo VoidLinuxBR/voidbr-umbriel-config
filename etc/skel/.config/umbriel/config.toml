@@ -22,8 +22,6 @@ autostart = [
     "xdg-user-dirs-update",                           # Criação e registro das pastas de usuário (Downloads, Documentos, etc.)
     "noctalia",                                       # Desktop shell (barra, notificações, painéis, wallpaper)
     "pipewire",                                       # Servidor de áudio e multimídia
-    "wireplumber",                                    # Gerenciador de sessão de áudio
-    "pipewire-pulse",                                 # Camada de compatibilidade PulseAudio
     "/usr/bin/umbriel-autoscale",                     # Ajuste automático de escala para telas 2K/4K
     "xhost +si:localuser:root"                        # Permissão para root desenhar na sessão gráfica via Xwayland
 ]
