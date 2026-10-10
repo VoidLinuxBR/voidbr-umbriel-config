@@ -2,6 +2,6 @@
 vt = 7
 
 [default_session]
-command = "/usr/bin/noctalia-greeter-session"
+command = "/usr/local/bin/noctalia-greeter-session"
 user = "_greeter"
 
