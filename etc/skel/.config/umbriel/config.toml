@@ -25,6 +25,7 @@ autostart = [
     "noctalia",                                       # Desktop shell (barra, notificações, painéis, wallpaper)
     "pipewire",                                       # Servidor de áudio e multimídia
     "/usr/bin/umbriel-autoscale",                     # Ajuste automático de escala para telas 2K/4K
+   "/usr/local/bin/voidbr-umbriel-shortcuts",
     "xhost +si:localuser:root"                        # Permissão para root desenhar na sessão gráfica via Xwayland
 ]
 
