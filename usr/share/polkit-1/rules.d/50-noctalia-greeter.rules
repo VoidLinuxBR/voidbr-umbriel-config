@@ -1,0 +1,9 @@
+polkit.addRule(function(action, subject) {
+    if ((action.id == "org.noctalia.greeter.apply-appearance" ||
+        (action.id == "org.freedesktop.policykit.exec" &&
+         (action.lookup("program") == "/usr/local/bin/noctalia-greeter-apply-appearance" ||
+          action.lookup("program") == "/usr/bin/noctalia-greeter-apply-appearance"))) &&
+        subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+    }
+});
