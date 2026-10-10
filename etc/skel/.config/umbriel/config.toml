@@ -18,6 +18,8 @@ files = []
 # Serviços iniciados automaticamente na abertura da sessão Wayland.
 # ==============================================================================
 [general]
+show_cheatsheet = false
+
 autostart = [
     "xdg-user-dirs-update",                           # Criação e registro das pastas de usuário (Downloads, Documentos, etc.)
     "noctalia",                                       # Desktop shell (barra, notificações, painéis, wallpaper)
