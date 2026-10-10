@@ -21,12 +21,11 @@ SHORTCUTS = [
     ]),
     (_("Foco"), [
         ("Mod + J", _("Mover o foco para baixo")),
-        ("Mod + J", _("Mover o foco para baixo")),
         ("Mod + F1", _("Focar a próxima janela")),
         ("Mod + H", _("Mover o foco para a esquerda")),
         ("Mod + K", _("Mover o foco para cima")),
         ("Mod + L", _("Mover o foco para a direita")),
-        ("Mod + Wheel Up", _("Alternar o foco entre janelas flutuantes")),
+        ("Mod + Wheel", _("Alternar o foco entre janelas flutuantes")),
     ]),
     (_("Mover e redimensionar"), [
         ("Mod + ,", _("Mover a janela para a coluna à esquerda")),
@@ -45,6 +44,7 @@ SHORTCUTS = [
         ("Mod + P", _("Fixar ou desafixar a janela")),
         ("Mod + Q", _("Fechar a janela")),
         ("Mod + T", _("Alternar janela flutuante")),
+        ("Mod + Shift + T", _("Alternar todas as janelas para flutuante")),
     ]),
     (_("Área temporária"), [
         ("Mod + Ctrl + Space", _("Restaurar janela da área temporária")),
@@ -62,8 +62,7 @@ SHORTCUTS = [
     (_("Sistema"), [
         ("Mod + Escape", _("Encerrar a sessão")),
         ("Mod + Shift + Escape", _("Ativar ou desativar a inibição de atalhos")),
-        ("Mod + ?", _("Mostrar ou ocultar este guia de atalhos")),
-        ("Mod + /", _("Atalho adicional")),
+        ("Mod + ? ou /", _("Mostrar ou ocultar este guia de atalhos")),
     ]),
 ]
 

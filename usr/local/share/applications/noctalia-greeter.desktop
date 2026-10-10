@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Noctalia Greeter Sync
+Comment=Sincroniza o tema atual do Noctalia com a tela de login (Greeter)
+Exec=pkexec noctalia-greeter-apply-appearance --setup-system
+Icon=lightdm-gtk-greeter-settings
+Terminal=false
+Type=Application
+Categories=Settings;System;Security;
+NoDisplay=true
