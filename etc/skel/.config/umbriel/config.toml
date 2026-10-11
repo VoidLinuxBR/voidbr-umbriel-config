@@ -35,8 +35,9 @@ autostart = [
 # ==============================================================================
 [environment]
 QT_QPA_PLATFORM = "wayland;xcb"
-QT_STYLE_OVERRIDE = "Adwaita-Dark"
-GTK_THEME = "Adwaita:dark"
+#QT_STYLE_OVERRIDE = "Adwaita-Dark"
+#GTK_THEME = "Adwaita:dark"
+
 
 # ==============================================================================
 # Saídas de Vídeo (Monitores)
@@ -67,7 +68,7 @@ variant = ""
 options = "grp:alt_shift_toggle"
 
 [input.cursor]
-theme = "Bibata-Modern-Ice"
+#theme = "Bibata-Modern-Ice"
 size = 24
 
 # ==============================================================================
