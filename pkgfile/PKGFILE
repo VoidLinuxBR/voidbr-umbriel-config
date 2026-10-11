@@ -67,7 +67,7 @@ post_install() {
   fi
 
   # Oculta aplicativos desnecessarios do menu do sistema
-  for app in footclient.desktop foot-server.desktop dev.noctalia.Noctalia.desktop noctalia-greeter.desktop; do
+  for app in footclient.desktop foot-server.desktop dev.noctalia.Noctalia.desktop noctalia-greeter.desktop mpv.desktop xfce4-about.desktop; do
     if [ -f "/usr/share/applications/$app" ]; then
       if grep -q "^NoDisplay=" "/usr/share/applications/$app"; then
         sed -i 's/^NoDisplay=.*/NoDisplay=true/' "/usr/share/applications/$app"

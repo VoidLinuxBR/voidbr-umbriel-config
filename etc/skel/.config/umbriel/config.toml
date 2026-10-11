@@ -81,6 +81,14 @@ size = 24
 "Print" = { action = "spawn:captura_de_tela", repeat = false }
 "Shift+Print" = { action = "spawn:captura_de_tela_inteira", repeat = false }
 
+# --- Teclas Multimídia e Brilho (Fn) ---
+"XF86AudioRaiseVolume" = { action = "spawn:noctalia msg volume-up", repeat = true }
+"XF86AudioLowerVolume" = { action = "spawn:noctalia msg volume-down", repeat = true }
+"XF86AudioMute" = { action = "spawn:noctalia msg volume-mute", repeat = false }
+"XF86AudioMicMute" = { action = "spawn:noctalia msg mic-mute", repeat = false }
+"XF86MonBrightnessUp" = { action = "spawn:noctalia msg brightness-up", repeat = true }
+"XF86MonBrightnessDown" = { action = "spawn:noctalia msg brightness-down", repeat = true }
+
 # --- Aplicativos, Sessão e Ajuda ---
 "Mod+Return" = { action = "spawn:foot", repeat = false }                      # Abrir terminal foot
 "Mod" = "spawn:noctalia msg panel-toggle launcher"                           # Super: menu de aplicativos
@@ -200,11 +208,17 @@ match.app_id = "^(gpartedbin|GParted)$"
 default_floating = true
 default_floating_size_px = { width = 920, height = 650 }
 
-# Visualizador de imagens Ristretto inicia flutuante
+# Visualizador de imagens Loupe/Ristretto inicia flutuante
 [[window_rule]]
-match.app_id = "^(ristretto|org.xfce.ristretto)$"
+match.app_id = "^(org.gnome.Loupe|loupe|ristretto|org.xfce.ristretto)$"
 default_floating = true
 default_floating_size_px = { width = 950, height = 700 }
+
+# Leitor de PDF Zathura inicia flutuante
+[[window_rule]]
+match.app_id = "^(org.pwmt.zathura|zathura)$"
+default_floating = true
+default_floating_size_px = { width = 900, height = 800 }
 
 [[window_rule]]
 match.title = "^notificationtoasts_.+_desktop"

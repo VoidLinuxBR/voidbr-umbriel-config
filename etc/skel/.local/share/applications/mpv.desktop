@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=mpv Media Player
+GenericName=Multimedia player
+Comment=Play movies and songs
+Icon=mpv
+Terminal=false
+NoDisplay=true
+Hidden=true
