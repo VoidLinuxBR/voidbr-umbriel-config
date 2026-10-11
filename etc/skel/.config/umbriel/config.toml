@@ -36,7 +36,8 @@ autostart = [
 [environment]
 QT_QPA_PLATFORM = "wayland;xcb"
 #QT_STYLE_OVERRIDE = "Adwaita-Dark"
-#GTK_THEME = "Adwaita:dark"
+GTK_THEME = "Adwaita:dark"
+
 
 
 # ==============================================================================
