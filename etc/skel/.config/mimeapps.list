@@ -1,0 +1,36 @@
+[Default Applications]
+image/jpeg=ristretto.desktop
+image/png=ristretto.desktop
+image/gif=ristretto.desktop
+image/webp=ristretto.desktop
+image/bmp=ristretto.desktop
+image/tiff=ristretto.desktop
+image/x-tga=ristretto.desktop
+image/svg+xml=ristretto.desktop
+video/mp4=celluloid.desktop
+video/mkv=celluloid.desktop
+video/webm=celluloid.desktop
+video/x-matroska=celluloid.desktop
+audio/mpeg=amberol.desktop
+audio/flac=amberol.desktop
+audio/ogg=amberol.desktop
+application/pdf=zathura.desktop
+text/plain=mousepad.desktop
+
+[Added Associations]
+image/jpeg=ristretto.desktop;
+image/png=ristretto.desktop;
+image/gif=ristretto.desktop;
+image/webp=ristretto.desktop;
+image/bmp=ristretto.desktop;
+image/tiff=ristretto.desktop;
+image/svg+xml=ristretto.desktop;
+video/mp4=celluloid.desktop;
+video/mkv=celluloid.desktop;
+video/webm=celluloid.desktop;
+video/x-matroska=celluloid.desktop;
+audio/mpeg=amberol.desktop;
+audio/flac=amberol.desktop;
+audio/ogg=amberol.desktop;
+application/pdf=zathura.desktop;
+text/plain=mousepad.desktop;
