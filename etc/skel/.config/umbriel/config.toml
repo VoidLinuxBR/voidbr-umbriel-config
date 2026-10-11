@@ -38,6 +38,8 @@ QT_QPA_PLATFORM = "wayland;xcb"
 QT_STYLE_OVERRIDE = "Adwaita-Dark"
 GTK_THEME = "Adwaita:dark"
 
+
+
 # ==============================================================================
 # Saídas de Vídeo (Monitores)
 # Por padrão, o Umbriel detecta automaticamente a resolução máxima e taxa de
