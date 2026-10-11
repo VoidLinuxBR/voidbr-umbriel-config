@@ -1,134 +1,70 @@
 #!/usr/bin/env python3
-import locale
+import gettext
 import gi
 
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gdk
 
-def get_language():
-    try:
-        loc, _ = locale.getdefaultlocale()
-        if loc and loc.startswith('pt'):
-            return 'pt'
-    except:
-        pass
-    return 'en'
+APPNAME = "umbriel-cheatsheet"
+LOCALEDIR = "/usr/share/locale"
 
-lang = get_language()
+gettext.bindtextdomain(APPNAME, LOCALEDIR)
+gettext.textdomain(APPNAME)
+_ = gettext.gettext
 
-if lang == 'pt':
-    UI_TITLE = "Atalhos do Umbriel"
-    UI_FOOTER = "Mod = Super · pressione qualquer tecla para fechar"
-    SHORTCUTS = [
-        ("Aplicativos", [
-            ("Mod", "Abrir o lançador de aplicativos do Noctalia"),
-            ("Mod + Return", "Abrir o terminal foot"),
-            ("Print", "Capturar a tela"),
-            ("Shift + Print", "Capturar a tela inteira"),
-        ]),
-        ("Foco", [
-            ("Mod + J", "Mover o foco para baixo"),
-            ("Mod + F1", "Focar a próxima janela"),
-            ("Mod + H", "Mover o foco para a esquerda"),
-            ("Mod + K", "Mover o foco para cima"),
-            ("Mod + L", "Mover o foco para a direita"),
-            ("Mod + Wheel", "Alternar o foco entre janelas flutuantes"),
-        ]),
-        ("Mover e redimensionar", [
-            ("Mod + ,", "Mover a janela para a coluna à esquerda"),
-            ("Mod + .", "Mover a janela para a coluna à direita"),
-            ("Mod + R", "Alternar a extensão principal da coluna"),
-            ("Mod + Shift + ↓", "Mover a janela para baixo"),
-            ("Mod + Shift + ←", "Mover a coluna para a esquerda"),
-            ("Mod + Shift + R", "Alternar a extensão principal da coluna (inverso)"),
-            ("Mod + Shift + →", "Mover a coluna para a direita"),
-            ("Mod + Shift + ↑", "Mover a janela para cima"),
-        ]),
-        ("Janelas", [
-            ("Mod + Ctrl + F", "Alternar maximização da janela"),
-            ("Mod + F", "Alternar tela cheia"),
-            ("Mod + M", "Maximizar a janela até as bordas"),
-            ("Mod + P", "Fixar ou desafixar a janela"),
-            ("Mod + Q", "Fechar a janela"),
-            ("Mod + T", "Alternar janela flutuante"),
-            ("Mod + Shift + T", "Alternar todas as janelas para flutuante"),
-        ]),
-        ("Área temporária", [
-            ("Mod + Ctrl + Space", "Restaurar janela da área temporária"),
-            ("Mod + Shift + Space", "Mover janela para a área temporária"),
-            ("Mod + Space", "Mostrar ou ocultar a área temporária"),
-            ("Mod + Tab", "Focar a próxima janela da área temporária"),
-        ]),
-        ("Áreas de trabalho", [
-            ("Mod + 1…9", "Alternar para a área de trabalho de 1 a 9"),
-            ("Mod + Shift + 1…9", "Mover janela para a área de trabalho de 1 a 9"),
-        ]),
-        ("Visão geral", [
-            ("Mod + O", "Mostrar ou ocultar a visão geral"),
-        ]),
-        ("Sistema", [
-            ("Mod + Escape", "Encerrar a sessão"),
-            ("Mod + Shift + Escape", "Ativar ou desativar a inibição de atalhos"),
-            ("Mod + ? ou /", "Mostrar ou ocultar este guia de atalhos"),
-        ]),
-    ]
-else:
-    UI_TITLE = "Umbriel Shortcuts"
-    UI_FOOTER = "Mod = Super · press any key to close"
-    SHORTCUTS = [
-        ("Applications", [
-            ("Mod", "Open Noctalia app launcher"),
-            ("Mod + Return", "Open foot terminal"),
-            ("Print", "Take a screenshot"),
-            ("Shift + Print", "Take a full screen screenshot"),
-        ]),
-        ("Focus", [
-            ("Mod + J", "Move focus down"),
-            ("Mod + F1", "Focus the next window"),
-            ("Mod + H", "Move focus left"),
-            ("Mod + K", "Move focus up"),
-            ("Mod + L", "Move focus right"),
-            ("Mod + Wheel", "Toggle focus between floating windows"),
-        ]),
-        ("Move & Resize", [
-            ("Mod + ,", "Consume window into the left column"),
-            ("Mod + .", "Consume window into the right column"),
-            ("Mod + R", "Toggle main column extension"),
-            ("Mod + Shift + ↓", "Move window down"),
-            ("Mod + Shift + ←", "Move column left"),
-            ("Mod + Shift + R", "Toggle main column extension (reverse)"),
-            ("Mod + Shift + →", "Move column right"),
-            ("Mod + Shift + ↑", "Move window up"),
-        ]),
-        ("Windows", [
-            ("Mod + Ctrl + F", "Toggle window maximization"),
-            ("Mod + F", "Toggle fullscreen"),
-            ("Mod + M", "Maximize window to borders"),
-            ("Mod + P", "Pin or unpin window"),
-            ("Mod + Q", "Close window"),
-            ("Mod + T", "Toggle floating window"),
-            ("Mod + Shift + T", "Toggle all windows floating"),
-        ]),
-        ("Scratchpad", [
-            ("Mod + Ctrl + Space", "Restore scratchpad window"),
-            ("Mod + Shift + Space", "Move window to scratchpad"),
-            ("Mod + Space", "Show or hide scratchpad"),
-            ("Mod + Tab", "Focus next scratchpad window"),
-        ]),
-        ("Workspaces", [
-            ("Mod + 1…9", "Switch to workspace 1 to 9"),
-            ("Mod + Shift + 1…9", "Move window to workspace 1 to 9"),
-        ]),
-        ("Overview", [
-            ("Mod + O", "Show or hide overview"),
-        ]),
-        ("System", [
-            ("Mod + Escape", "End session"),
-            ("Mod + Shift + Escape", "Toggle shortcuts inhibition"),
-            ("Mod + ? or /", "Show or hide this shortcuts guide"),
-        ]),
-    ]
-
+SHORTCUTS = [
+    (_("Aplicativos"), [
+        ("Mod", _("Abrir o lançador de aplicativos do Noctalia")),
+        ("Mod + Return", _("Abrir o terminal foot")),
+        ("Print", _("Capturar a tela")),
+        ("Shift + Print", _("Capturar a tela inteira")),
+    ]),
+    (_("Foco"), [
+        ("Mod + J", _("Mover o foco para baixo")),
+        ("Mod + F1", _("Focar a próxima janela")),
+        ("Mod + H", _("Mover o foco para a esquerda")),
+        ("Mod + K", _("Mover o foco para cima")),
+        ("Mod + L", _("Mover o foco para a direita")),
+        ("Mod + Wheel", _("Alternar o foco entre janelas flutuantes")),
+    ]),
+    (_("Mover e redimensionar"), [
+        ("Mod + ,", _("Mover a janela para a coluna à esquerda")),
+        ("Mod + .", _("Mover a janela para a coluna à direita")),
+        ("Mod + R", _("Alternar a extensão principal da coluna")),
+        ("Mod + Shift + ↓", _("Mover a janela para baixo")),
+        ("Mod + Shift + ←", _("Mover a coluna para a esquerda")),
+        ("Mod + Shift + R", _("Alternar a extensão principal da coluna (inverso)")),
+        ("Mod + Shift + →", _("Mover a coluna para a direita")),
+        ("Mod + Shift + ↑", _("Mover a janela para cima")),
+    ]),
+    (_("Janelas"), [
+        ("Mod + Ctrl + F", _("Alternar maximização da janela")),
+        ("Mod + F", _("Alternar tela cheia")),
+        ("Mod + M", _("Maximizar a janela até as bordas")),
+        ("Mod + P", _("Fixar ou desafixar a janela")),
+        ("Mod + Q", _("Fechar a janela")),
+        ("Mod + T", _("Alternar janela flutuante")),
+        ("Mod + Shift + T", _("Alternar todas as janelas para flutuante")),
+    ]),
+    (_("Área temporária"), [
+        ("Mod + Ctrl + Space", _("Restaurar janela da área temporária")),
+        ("Mod + Shift + Space", _("Mover janela para a área temporária")),
+        ("Mod + Space", _("Mostrar ou ocultar a área temporária")),
+        ("Mod + Tab", _("Focar a próxima janela da área temporária")),
+    ]),
+    (_("Áreas de trabalho"), [
+        ("Mod + 1…9", _("Alternar para a área de trabalho de 1 a 9")),
+        ("Mod + Shift + 1…9", _("Mover janela para a área de trabalho de 1 a 9")),
+    ]),
+    (_("Visão geral"), [
+        ("Mod + O", _("Mostrar ou ocultar a visão geral")),
+    ]),
+    (_("Sistema"), [
+        ("Mod + Escape", _("Encerrar a sessão")),
+        ("Mod + Shift + Escape", _("Ativar ou desativar a inibição de atalhos")),
+        ("Mod + ? ou /", _("Mostrar ou ocultar este guia de atalhos")),
+    ]),
+]
 
 CSS = b"""
 window { background: #211f22; color: #ded7e2; }
@@ -142,7 +78,7 @@ window { background: #211f22; color: #ded7e2; }
 
 class Win(Gtk.ApplicationWindow):
     def __init__(self, app):
-        super().__init__(application=app, title=UI_TITLE)
+        super().__init__(application=app, title=_("Atalhos do Umbriel"))
         self.set_default_size(860, 610)
         self.set_resizable(False)
 
@@ -156,7 +92,7 @@ class Win(Gtk.ApplicationWindow):
         root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         root.add_css_class("cheatsheet")
 
-        title = Gtk.Label(label=UI_TITLE, xalign=0)
+        title = Gtk.Label(label=_("Atalhos do Umbriel"), xalign=0)
         title.add_css_class("title")
         root.append(title)
 
@@ -177,7 +113,7 @@ class Win(Gtk.ApplicationWindow):
         root.append(grid)
 
         footer = Gtk.Label(
-            label=UI_FOOTER,
+            label=_("Mod = Super · pressione qualquer tecla para fechar"),
             xalign=0
         )
         footer.add_css_class("footer")
@@ -203,7 +139,7 @@ class Win(Gtk.ApplicationWindow):
             row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
             key_label = Gtk.Label(label=key, xalign=0)
             key_label.add_css_class("key")
-            key_label.set_width_chars(max(12, len(key)))
+            key_label.set_width_chars(max(8, len(key)))
             desc_label = Gtk.Label(label=description, xalign=0)
             desc_label.add_css_class("desc")
             desc_label.set_hexpand(True)
