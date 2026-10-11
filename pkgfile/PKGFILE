@@ -60,29 +60,28 @@ pre_install() {
 }
 
 post_install() {
-	log "Finalizando instalação"
-	if command -v noctalia-greeter-apply-appearance >/dev/null 2>&1; then
-		noctalia-greeter-apply-appearance --setup-system 2>/dev/null || true
-		chown -R _greeter:_greeter /var/lib/noctalia-greeter 2>/dev/null || true
-	fi
+  log "Finalizando instalação"
+  if command -v noctalia-greeter-apply-appearance >/dev/null 2>&1; then
+    noctalia-greeter-apply-appearance --setup-system 2>/dev/null || true
+    chown -R _greeter:_greeter /var/lib/noctalia-greeter 2>/dev/null || true
+  fi
 
-	# Oculta aplicativos desnecessarios do menu do sistema
-	local hide_apps=(footclient.desktop foot-server.desktop dev.noctalia.Noctalia.desktop noctalia-greeter.desktop)
-	for app in "${hide_apps[@]}"; do
-		if [ -f "/usr/share/applications/$app" ]; then
-			if grep -q "^NoDisplay=" "/usr/share/applications/$app"; then
-				sed -i 's/^NoDisplay=.*/NoDisplay=true/' "/usr/share/applications/$app"
-			else
-				echo "NoDisplay=true" >> "/usr/share/applications/$app"
-			fi
-		fi
-	done
+  # Oculta aplicativos desnecessarios do menu do sistema
+  for app in footclient.desktop foot-server.desktop dev.noctalia.Noctalia.desktop noctalia-greeter.desktop; do
+    if [ -f "/usr/share/applications/$app" ]; then
+      if grep -q "^NoDisplay=" "/usr/share/applications/$app"; then
+        sed -i 's/^NoDisplay=.*/NoDisplay=true/' "/usr/share/applications/$app"
+      else
+        echo "NoDisplay=true" >> "/usr/share/applications/$app"
+      fi
+    fi
+  done
 
-	# Corrige o template do Umbriel no Noctalia removendo chaves invalidas de scratchpad
-	if [ -f "/usr/share/noctalia/assets/templates/umbriel/umbriel.toml" ]; then
-		sed -i '/scratchpad_focused/d' /usr/share/noctalia/assets/templates/umbriel/umbriel.toml 2>/dev/null || true
-		sed -i '/scratchpad_unfocused/d' /usr/share/noctalia/assets/templates/umbriel/umbriel.toml 2>/dev/null || true
-	fi
+  # Corrige o template do Umbriel no Noctalia removendo chaves invalidas de scratchpad
+  if [ -f "/usr/share/noctalia/assets/templates/umbriel/umbriel.toml" ]; then
+    sed -i '/scratchpad_focused/d' /usr/share/noctalia/assets/templates/umbriel/umbriel.toml 2>/dev/null || true
+    sed -i '/scratchpad_unfocused/d' /usr/share/noctalia/assets/templates/umbriel/umbriel.toml 2>/dev/null || true
+  fi
 }
 
 pre_upgrade() {
