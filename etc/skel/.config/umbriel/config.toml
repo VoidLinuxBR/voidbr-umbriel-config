@@ -25,7 +25,7 @@ autostart = [
     "noctalia",                                       # Desktop shell (barra, notificações, painéis, wallpaper)
     "pipewire",                                       # Servidor de áudio e multimídia
     "/usr/local/bin/umbriel-autoscale",               # Ajuste automático de escala para telas 2K/4K
-   "/usr/local/bin/voidbr-umbriel-shortcuts",
+    "/usr/local/bin/voidbr-umbriel-shortcuts",        # Guia de atalhos e boas-vindas VoidBR
     "xhost +si:localuser:root"                        # Permissão para root desenhar na sessão gráfica via Xwayland
 ]
 
@@ -82,8 +82,8 @@ size = 24
 # --- Aplicativos, Sessão e Ajuda ---
 "Mod+Return" = { action = "spawn:foot", repeat = false }                      # Abrir terminal foot
 "Mod" = "spawn:noctalia msg panel-toggle launcher"                           # Super: menu de aplicativos
-"Mod+slash" = { action = "cheatsheet-toggle", repeat = false }                # Super + /: guia de atalhos
-"Mod+question" = { action = "cheatsheet-toggle", repeat = false }             # Super + ?: guia de atalhos
+"Mod+slash" = { action = "spawn:/usr/local/bin/voidbr-umbriel-shortcuts", repeat = false }        # Super + /: guia de atalhos
+"Mod+question" = { action = "spawn:/usr/local/bin/voidbr-umbriel-shortcuts", repeat = false }     # Super + ?: guia de atalhos
 "Mod+Q" = { action = "window-close", repeat = false }                         # Fechar janela ativa
 "Mod+Escape" = "session-quit"                                                 # Sair da sessão
 "Mod+Shift+Escape" = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }

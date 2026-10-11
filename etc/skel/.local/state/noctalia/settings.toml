@@ -22,7 +22,7 @@ start = [ "launcher", "wallpaper", "workspaces", "bar" ]
 enable_ddcutil = true
 
 [hooks]
-colors_changed = 'umbriel msg reload 2>/dev/null'
+colors_changed = "umbriel msg config-reload 2>/dev/null"
 
 [location]
 auto_locate = true
