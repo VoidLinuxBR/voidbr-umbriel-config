@@ -60,7 +60,11 @@ pre_install() {
 }
 
 post_install() {
-	log "Finalizando instalação"
+  if [ "${update:-}" = "yes" ]; then
+    log "Finalizando upgrade"
+  else
+    log "Finalizando instalação"
+  fi
 
 	if [ -f /usr/local/bin/noctalia-greeter-apply-appearance ]; then
 		/usr/local/bin/noctalia-greeter-apply-appearance --setup-system 2>/dev/null || true
@@ -115,6 +119,5 @@ pre_upgrade() {
 }
 
 post_upgrade() {
-	log "Finalizando upgrade"
 	post_install
 }
