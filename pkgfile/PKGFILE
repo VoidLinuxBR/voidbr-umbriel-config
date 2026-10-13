@@ -17,13 +17,6 @@ makedepends=()
 depends=()
 backup=()
 
-# Automatically detect and use the correct install file
-if [ -e "${pkgname}.install" ]; then
-	install=${pkgname}.install
-elif [ -e "pkgbuild.install" ]; then
-	install=pkgfile.install
-fi
-
 package() {
 	# Verify default folder
 	if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
@@ -45,14 +38,10 @@ package() {
 	done
 
 	# Install license file if present
-	if [ -f "LICENSE" ]; then
-		install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-	fi
-
+	[ -f "LICENSE" ] && install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 	# Install documentation if present
-	if [ -f "README.md" ]; then
-		install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
-	fi
+	[ -f "README.md" ] && install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+
 }
 
 pre_install() {
@@ -60,11 +49,11 @@ pre_install() {
 }
 
 post_install() {
-  if [ "${update:-}" = "yes" ]; then
-    log "Finalizando upgrade"
-  else
-    log "Finalizando instalação"
-  fi
+	if [ "${update:-}" = "yes" ]; then
+		log "Finalizando upgrade"
+	else
+		log "Finalizando instalação"
+	fi
 
 	if [ -f /usr/local/bin/noctalia-greeter-apply-appearance ]; then
 		/usr/local/bin/noctalia-greeter-apply-appearance --setup-system 2>/dev/null || true
@@ -109,8 +98,8 @@ EOF
 	ln -sf /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d/50-pipewire.conf
 	ln -sf /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /
 
-  chown $user:$user /home/$user/.config/pipewire -R
-  chown $user:$user /home/$user/.config/pulse -R
+	chown $user:$user /home/$user/.config/pipewire -R
+	chown $user:$user /home/$user/.config/pulse -R
 
 }
 
