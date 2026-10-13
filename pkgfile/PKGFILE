@@ -77,30 +77,6 @@ post_install() {
 		sed -i '/scratchpad_unfocused/d' /usr/share/noctalia/assets/templates/umbriel/umbriel.toml 2>/dev/null || true
 	fi
 
-	# DESATIVAR AUTOSPAWN DO PULSEAUDIO (usuário)
-	# impede PulseAudio iniciar automaticamente
-	mkdir -p /home/${user}/.config/pulse
-
-	cat >/home/${user}/.config/pulse/client.conf <<EOF
-autospawn = no
-daemon-binary = /bin/true
-EOF
-
-	# configure pipewire
-	mkdir -p /home/${user}/.config/pipewire/pipewire.conf.d
-	ln -sf /usr/share/examples/wireplumber/10-wireplumber.conf \
-		/home/${user}/.config/pipewire/pipewire.conf.d/10-wireplumber.conf
-	ln -sf /usr/share/examples/pipewire/20-pipewire-pulse.conf \
-		/home/${user}/.config/pipewire/pipewire.conf.d/20-pipewire-pulse.conf
-
-	# ---- integração ALSA → PipeWire ----
-	mkdir -p /etc/alsa/conf.d
-	ln -sf /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d/50-pipewire.conf
-	ln -sf /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /
-
-	chown $user:$user /home/$user/.config/pipewire -R
-	chown $user:$user /home/$user/.config/pulse -R
-
 }
 
 pre_upgrade() {
