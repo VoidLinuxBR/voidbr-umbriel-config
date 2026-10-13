@@ -4,9 +4,9 @@ pkgname=voidbr-umbriel-config
 pkgdesc="Skel config for VoidBR UMBRIEL Meta Package"
 pkgver=$(date +%Y%m%d)
 pkgrel=$(date +%H%M)
-provides=()               # "eu SOU o $pkgname pkg1, pra quem depender deles"
-replaces=()               # "remove o pkg1 pkg2 antigo automaticamente quando eu instalar"
-conflicts=()              # "nunca me deixe coexistir com o pkg1 pkg2 original"
+provides=()  # "eu SOU o $pkgname pkg1, pra quem depender deles"
+replaces=()  # "remove o pkg1 pkg2 antigo automaticamente quando eu instalar"
+conflicts=() # "nunca me deixe coexistir com o pkg1 pkg2 original"
 arch=('any')
 license=('MIT')
 #url="ssh://git@github.com/voidlinuxbr/${pkgname}"
@@ -26,12 +26,12 @@ fi
 
 package() {
 	# Verify default folder
-  if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
+	if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
 		InternalDir="${srcdir}/${pkgname}/${pkgname}"
-  elif [ -d "${srcdir}/${pkgname}" ]; then
+	elif [ -d "${srcdir}/${pkgname}" ]; then
 		InternalDir="${srcdir}/${pkgname}"
 	else
-    #local
+		#local
 		InternalDir="${WORKDIR}"
 	fi
 
@@ -60,28 +60,54 @@ pre_install() {
 }
 
 post_install() {
-  log "Finalizando instalação"
-  if command -v noctalia-greeter-apply-appearance >/dev/null 2>&1; then
-    noctalia-greeter-apply-appearance --setup-system 2>/dev/null || true
-    chown -R _greeter:_greeter /var/lib/noctalia-greeter 2>/dev/null || true
-  fi
+	log "Finalizando instalação"
 
-  # Oculta aplicativos desnecessarios do menu do sistema
-  for app in footclient.desktop foot-server.desktop dev.noctalia.Noctalia.desktop noctalia-greeter.desktop mpv.desktop xfce4-about.desktop; do
-    if [ -f "/usr/share/applications/$app" ]; then
-      if grep -q "^NoDisplay=" "/usr/share/applications/$app"; then
-        sed -i 's/^NoDisplay=.*/NoDisplay=true/' "/usr/share/applications/$app"
-      else
-        echo "NoDisplay=true" >> "/usr/share/applications/$app"
-      fi
-    fi
-  done
+	if [ -f /usr/local/bin/noctalia-greeter-apply-appearance ]; then
+		/usr/local/bin/noctalia-greeter-apply-appearance --setup-system 2>/dev/null || true
+		chown -R _greeter:_greeter /var/lib/noctalia-greeter 2>/dev/null || true
+	fi
 
-  # Corrige o template do Umbriel no Noctalia removendo chaves invalidas de scratchpad
-  if [ -f "/usr/share/noctalia/assets/templates/umbriel/umbriel.toml" ]; then
-    sed -i '/scratchpad_focused/d' /usr/share/noctalia/assets/templates/umbriel/umbriel.toml 2>/dev/null || true
-    sed -i '/scratchpad_unfocused/d' /usr/share/noctalia/assets/templates/umbriel/umbriel.toml 2>/dev/null || true
-  fi
+	# Oculta aplicativos desnecessarios do menu do sistema
+	for app in footclient.desktop foot-server.desktop dev.noctalia.Noctalia.desktop noctalia-greeter.desktop mpv.desktop xfce4-about.desktop; do
+		if [ -f "/usr/share/applications/$app" ]; then
+			if grep -q "^NoDisplay=" "/usr/share/applications/$app"; then
+				sed -i 's/^NoDisplay=.*/NoDisplay=true/' "/usr/share/applications/$app"
+			else
+				echo "NoDisplay=true" >>"/usr/share/applications/$app"
+			fi
+		fi
+	done
+
+	# Corrige o template do Umbriel no Noctalia removendo chaves invalidas de scratchpad
+	if [ -f "/usr/share/noctalia/assets/templates/umbriel/umbriel.toml" ]; then
+		sed -i '/scratchpad_focused/d' /usr/share/noctalia/assets/templates/umbriel/umbriel.toml 2>/dev/null || true
+		sed -i '/scratchpad_unfocused/d' /usr/share/noctalia/assets/templates/umbriel/umbriel.toml 2>/dev/null || true
+	fi
+
+	# DESATIVAR AUTOSPAWN DO PULSEAUDIO (usuário)
+	# impede PulseAudio iniciar automaticamente
+	mkdir -p /home/${user}/.config/pulse
+
+	cat >/home/${user}/.config/pulse/client.conf <<EOF
+autospawn = no
+daemon-binary = /bin/true
+EOF
+
+	# configure pipewire
+	mkdir -p /home/${user}/.config/pipewire/pipewire.conf.d
+	ln -sf /usr/share/examples/wireplumber/10-wireplumber.conf \
+		/home/${user}/.config/pipewire/pipewire.conf.d/10-wireplumber.conf
+	ln -sf /usr/share/examples/pipewire/20-pipewire-pulse.conf \
+		/home/${user}/.config/pipewire/pipewire.conf.d/20-pipewire-pulse.conf
+
+	# ---- integração ALSA → PipeWire ----
+	mkdir -p /etc/alsa/conf.d
+	ln -sf /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d/50-pipewire.conf
+	ln -sf /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /
+
+  chown $user:$user /home/$user/.config/pipewire -R
+  chown $user:$user /home/$user/.config/pulse -R
+
 }
 
 pre_upgrade() {
