@@ -101,16 +101,16 @@ source = "wallpaper"
     builtin_ids = [ "umbriel" ]
 
 [wallpaper]
-directory = "/usr/share/backgrounds/umbriel"
+directory = "~/Imagens/Wallpapers"
 
     [wallpaper.default]
-    path = "/usr/share/backgrounds/umbriel/void_br_wallpaper_2047x1310.png"
+    path = "~/Imagens/Wallpapers/void_br_wallpaper_2047x1310.png"
 
     [wallpaper.last]
-    path = "/usr/share/backgrounds/umbriel/void_br_wallpaper_2047x1310.png"
+    path = "~/Imagens/Wallpapers/void_br_wallpaper_2047x1310.png"
 
     [wallpaper.monitors.DP-1]
-    path = "/usr/share/backgrounds/umbriel/void_br_wallpaper_2047x1310.png"
+    path = "~/Imagens/Wallpapers/void_br_wallpaper_2047x1310.png"
 
     [[wallpaper.favorite]]
     path = "/usr/share/backgrounds/umbriel/void_br_wallpaper_2047x1310.png"
