@@ -104,13 +104,13 @@ source = "wallpaper"
 directory = "~/Imagens/Wallpapers"
 
     [wallpaper.default]
-    path = "~/Imagens/Wallpapers/void_br_wallpaper_2047x1310.png"
+    path = "~/Imagens/Wallpapers/voidbr_noctalia_japanese_forest.webp"
 
     [wallpaper.last]
-    path = "~/Imagens/Wallpapers/void_br_wallpaper_2047x1310.png"
+    path = "~/Imagens/Wallpapers/voidbr_noctalia_japanese_forest.webp"
 
     [wallpaper.monitors.DP-1]
-    path = "~/Imagens/Wallpapers/void_br_wallpaper_2047x1310.png"
+    path = "~/Imagens/Wallpapers/voidbr_noctalia_japanese_forest.webp"
 
 [weather]
 effects = true
