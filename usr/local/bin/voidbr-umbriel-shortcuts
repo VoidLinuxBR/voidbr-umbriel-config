@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import gettext
+import os
+import tomllib
 import gi
 
 gi.require_version("Gtk", "4.0")
@@ -75,15 +77,64 @@ SHORTCUTS = [
     ]),
 ]
 
-CSS = b"""
-window { background: #211f22; color: #ded7e2; }
-.cheatsheet { background: #211f22; border: 1px solid #b9a9bf; border-radius: 10px; padding: 22px 24px 18px 24px; }
-.title { font-family: monospace; font-size: 16px; font-weight: bold; color: #d8c9dc; margin-bottom: 10px; }
-.section { font-family: monospace; font-size: 12px; font-weight: bold; color: #cfc4d2; margin-top: 5px; margin-bottom: 1px; }
-.key { font-family: monospace; font-size: 11px; color: #e0d3e8; background: #39343c; padding: 1px 5px; }
-.desc { font-family: monospace; font-size: 11px; color: #e0d9e1; }
-.footer { font-family: monospace; font-size: 11px; color: #cfc4d2; margin-top: 10px; }
-"""
+# Cores padrão; o tema do Noctalia (~/.config/umbriel/noctalia.toml) tem prioridade
+DEFAULT_COLORS = {
+    "background": "#211f22",
+    "text": "#ded7e2",
+    "border": "#b9a9bf",
+    "title": "#d8c9dc",
+    "section": "#cfc4d2",
+    "key_fg": "#e0d3e8",
+    "key_bg": "#39343c",
+    "desc": "#e0d9e1",
+    "footer": "#cfc4d2",
+}
+
+
+def _hex(value):
+    """'#RRGGBBAA' -> '#RRGGBB' (o GTK CSS aceita alfa, mas o guia usa fundo opaco)."""
+    if isinstance(value, str) and value.startswith("#") and len(value) in (7, 9):
+        return value[:7]
+    return None
+
+
+def load_colors():
+    colors = dict(DEFAULT_COLORS)
+    path = os.path.expanduser("~/.config/umbriel/noctalia.toml")
+    try:
+        with open(path, "rb") as f:
+            theme = tomllib.load(f).get("colors", {})
+    except (OSError, tomllib.TOMLDecodeError):
+        return colors
+    mapping = {
+        "background": theme.get("background"),
+        "text": theme.get("text_primary"),
+        "desc": theme.get("text_primary"),
+        "key_fg": theme.get("text_primary"),
+        "border": theme.get("accent_primary"),
+        "title": theme.get("accent_primary"),
+        "section": theme.get("text_muted"),
+        "footer": theme.get("text_muted"),
+        "key_bg": theme.get("backdrop"),
+    }
+    for name, value in mapping.items():
+        value = _hex(value)
+        if value:
+            colors[name] = value
+    return colors
+
+
+def make_css():
+    c = load_colors()
+    return f"""
+window {{ background: {c["background"]}; color: {c["text"]}; }}
+.cheatsheet {{ background: {c["background"]}; border: 1px solid {c["border"]}; border-radius: 10px; padding: 22px 24px 18px 24px; }}
+.title {{ font-family: monospace; font-size: 16px; font-weight: bold; color: {c["title"]}; margin-bottom: 10px; }}
+.section {{ font-family: monospace; font-size: 12px; font-weight: bold; color: {c["section"]}; margin-top: 5px; margin-bottom: 1px; }}
+.key {{ font-family: monospace; font-size: 11px; color: {c["key_fg"]}; background: {c["key_bg"]}; padding: 1px 5px; }}
+.desc {{ font-family: monospace; font-size: 11px; color: {c["desc"]}; }}
+.footer {{ font-family: monospace; font-size: 11px; color: {c["footer"]}; margin-top: 10px; }}
+""".encode()
 
 class Win(Gtk.ApplicationWindow):
     def __init__(self, app):
@@ -92,7 +143,7 @@ class Win(Gtk.ApplicationWindow):
         self.set_resizable(False)
 
         provider = Gtk.CssProvider()
-        provider.load_from_data(CSS)
+        provider.load_from_data(make_css())
         Gtk.StyleContext.add_provider_for_display(
             Gdk.Display.get_default(), provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
