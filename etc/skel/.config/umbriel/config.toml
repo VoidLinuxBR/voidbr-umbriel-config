@@ -96,7 +96,7 @@ size = 24
 "Mod+Return" = { action = "spawn:foot", repeat = false }                      # Abrir terminal foot
 "Mod" = "spawn:noctalia msg panel-toggle launcher"                           # Super: menu de aplicativos
 "Mod+slash" = { action = "spawn:/usr/local/bin/voidbr-umbriel-shortcuts", repeat = false }        # Super + /: guia de atalhos
-"Mod+question" = { action = "spawn:/usr/local/bin/voidbr-umbriel-shortcuts", repeat = false }     # Super + ?: guia de atalhos
+"Mod+Shift+Slash" = { action = "spawn:/usr/local/bin/voidbr-umbriel-shortcuts", repeat = false }     # Super + ? (Shift + /): guia de atalhos
 "Mod+Q" = { action = "window-close", repeat = false }                         # Fechar janela ativa
 "Mod+Escape" = "session-quit"                                                 # Sair da sessão
 "Mod+Shift+Escape" = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }
