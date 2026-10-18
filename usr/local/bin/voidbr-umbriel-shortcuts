@@ -28,10 +28,6 @@ SHORTCUTS = [
         ("Mod + Wheel", _("Alternar o foco entre janelas flutuantes")),
     ]),
     (_("Mover e redimensionar"), [
-        ("Mod + ,", _("Agrupar a janela na coluna à esquerda (como aba)")),
-        ("Mod + .", _("Agrupar a janela na coluna à direita (como aba)")),
-        ("Mod + Shift + ,", _("Desagrupar janela para a esquerda")),
-        ("Mod + Shift + .", _("Desagrupar janela para a direita")),
         ("Mod + R", _("Alternar a extensão principal da coluna")),
         ("Mod + Shift + ↓", _("Mover a janela para baixo")),
         ("Mod + Shift + ←", _("Mover a coluna para a esquerda")),
@@ -39,12 +35,18 @@ SHORTCUTS = [
         ("Mod + Shift + →", _("Mover a coluna para a direita")),
         ("Mod + Shift + ↑", _("Mover a janela para cima")),
     ]),
-    (_("Janelas e abas"), [
-        ("Mod + W", _("Alternar coluna entre abas e empilhamento")),
-        ("Mod + [", _("Focar aba anterior")),
-        ("Mod + ]", _("Focar próxima aba")),
+    (_("Abas"), [
+        ("Mod + W", _("Alternar a coluna entre abas e empilhamento")),
+        ("Mod + [", _("Focar a aba anterior")),
+        ("Mod + ]", _("Focar a próxima aba")),
+        ("Mod + ,", _("Juntar a janela à coluna da esquerda (vira aba)")),
+        ("Mod + .", _("Juntar a janela à coluna da direita (vira aba)")),
+        ("Mod + Shift + ,", _("Tirar a janela da aba, para a esquerda")),
+        ("Mod + Shift + .", _("Tirar a janela da aba, para a direita")),
         ("Rolar sobre as abas", _("Alternar entre as abas")),
         ("Clique do meio na aba", _("Fechar a aba")),
+    ]),
+    (_("Janelas"), [
         ("Mod + Ctrl + F", _("Alternar maximização da janela")),
         ("Mod + F", _("Alternar tela cheia")),
         ("Mod + M", _("Maximizar a janela até as bordas")),
@@ -110,9 +112,9 @@ class Win(Gtk.ApplicationWindow):
         left = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=7)
         right = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=7)
 
-        for title_text, rows in SHORTCUTS[:3]:
+        for title_text, rows in SHORTCUTS[:4]:
             left.append(self.make_section(title_text, rows))
-        for title_text, rows in SHORTCUTS[3:]:
+        for title_text, rows in SHORTCUTS[4:]:
             right.append(self.make_section(title_text, rows))
 
         grid.attach(left, 0, 0, 1, 1)
