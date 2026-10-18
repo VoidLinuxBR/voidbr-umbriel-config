@@ -28,8 +28,10 @@ SHORTCUTS = [
         ("Mod + Wheel", _("Alternar o foco entre janelas flutuantes")),
     ]),
     (_("Mover e redimensionar"), [
-        ("Mod + ,", _("Mover a janela para a coluna à esquerda")),
-        ("Mod + .", _("Mover a janela para a coluna à direita")),
+        ("Mod + ,", _("Agrupar a janela na coluna à esquerda (como aba)")),
+        ("Mod + .", _("Agrupar a janela na coluna à direita (como aba)")),
+        ("Mod + Shift + ,", _("Desagrupar janela para a esquerda")),
+        ("Mod + Shift + .", _("Desagrupar janela para a direita")),
         ("Mod + R", _("Alternar a extensão principal da coluna")),
         ("Mod + Shift + ↓", _("Mover a janela para baixo")),
         ("Mod + Shift + ←", _("Mover a coluna para a esquerda")),
@@ -37,7 +39,12 @@ SHORTCUTS = [
         ("Mod + Shift + →", _("Mover a coluna para a direita")),
         ("Mod + Shift + ↑", _("Mover a janela para cima")),
     ]),
-    (_("Janelas"), [
+    (_("Janelas e abas"), [
+        ("Mod + W", _("Alternar coluna entre abas e empilhamento")),
+        ("Mod + [", _("Focar aba anterior")),
+        ("Mod + ]", _("Focar próxima aba")),
+        ("Rolar sobre as abas", _("Alternar entre as abas")),
+        ("Clique do meio na aba", _("Fechar a aba")),
         ("Mod + Ctrl + F", _("Alternar maximização da janela")),
         ("Mod + F", _("Alternar tela cheia")),
         ("Mod + M", _("Maximizar a janela até as bordas")),
@@ -79,7 +86,7 @@ window { background: #211f22; color: #ded7e2; }
 class Win(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title=_("Atalhos do Umbriel"))
-        self.set_default_size(860, 610)
+        self.set_default_size(860, 640)
         self.set_resizable(False)
 
         provider = Gtk.CssProvider()

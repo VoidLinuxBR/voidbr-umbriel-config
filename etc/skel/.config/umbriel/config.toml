@@ -57,6 +57,9 @@ GTK_THEME = "Adwaita:dark"
 [appearance.blur]
 radius = 3
 
+[appearance.tab_bar]
+hide_when_single = true
+
 # ==============================================================================
 # Dispositivos de Entrada (Teclado e Mouse)
 # Configuração híbrida: suporta ABNT2 (br) e US-Internacional.
@@ -126,6 +129,11 @@ size = 24
 "Mod+Shift+R" = "window-cycle-primary-extent-back"                            # Ajustar largura (sentido inverso)
 "Mod+Comma" = "window-consume-left"                                           # Agrupar à esquerda
 "Mod+Period" = "window-consume-right"                                         # Agrupar à direita
+"Mod+Shift+Comma" = "window-consume-or-expel-left"                           # Desagrupar / expulsar à esquerda
+"Mod+Shift+Period" = "window-consume-or-expel-right"                         # Desagrupar / expulsar à direita
+"Mod+W" = { action = "column-toggle-tabbed", repeat = false }                # Alternar abas/pilha (Tabbed)
+"Mod+bracketleft" = "column-focus-tab-previous"                              # Focar aba anterior
+"Mod+bracketright" = "column-focus-tab-next"                                 # Focar próxima aba
 "Mod+WheelUp" = "window-focus-left"                                           # Scroll para a esquerda
 "Mod+WheelDown" = "window-focus-right"                                        # Scroll para a direita
 "Mod+O" = { action = "overview-toggle", repeat = false }                      # Visão Geral (Overview)
@@ -166,6 +174,11 @@ extent_presets = [0.333, 0.5, 0.667]
 
 [layout.scrolling]
 default_extent_fraction = 0.5
+
+[layout.tabs]
+default_display = "tabbed"
+middle_click_closes = true
+scroll_switches_tabs = true
 
 # ==============================================================================
 
@@ -224,8 +237,16 @@ default_pinned = true
 # ==============================================================================
 # Regras de Camada (Layer Rules)
 # ==============================================================================
+# A barra e os widgets ficam sobre o papel de parede e usam o blur otimizado em cache
 [[layer_rule]]
-match.namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd|desktop-widget-[^\"]*)$"
+match.namespace = "^noctalia-(bar-[^\"]+|desktop-widget-[^\"]*)$"
+blur = true
+blur_ignore_alpha = 0.5
+blur_popups = true
+
+# Painéis, dock, notificações e OSD abrem sobre janelas; desfocam o conteúdo ao vivo atrás deles
+[[layer_rule]]
+match.namespace = "^noctalia-(notification|dock|panel|attached-panel|osd)$"
 blur = true
 blur_ignore_alpha = 0.5
 blur_popups = true
@@ -238,3 +259,17 @@ blur_optimized = false
 enabled = true
 delay_ms = 500
 action = "overview-open"
+
+[include.optional]
+files = [
+    "noctalia.toml",
+    "/usr/share/umbriel/effects/cursor/trail/effect.toml",
+    "/usr/share/umbriel/effects/border/pulse/effect.toml"
+]
+
+# ==============================================================================
+# Efeitos Visuais (UmbrielFX)
+# ==============================================================================
+[effects]
+cursor = "trail"
+border = "pulse"

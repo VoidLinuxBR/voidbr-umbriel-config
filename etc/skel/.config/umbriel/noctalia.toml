@@ -18,3 +18,13 @@ outer = "#141314FF"
 background_tint = "#14131488"
 badge = "#d4c1cfFF"
 workspace_background = "#141314FF"
+
+[colors.tab_bar]
+background = "#211f20FF"
+text = "#cec4c9FF"
+active = "#d4c1cfFF"
+active_text = "#141314FF"
+active_unfocused = "#4c4549FF"
+active_unfocused_text = "#e7e1e2FF"
+urgent = "#ffb4abFF"
+urgent_text = "#141314FF"

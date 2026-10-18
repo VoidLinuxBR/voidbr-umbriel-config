@@ -87,6 +87,7 @@ enabled = [ "yogaeru/umbriel_layout", "noctalia/umbriel-companion" ]
 
 [shell]
 polkit_agent = true
+umbriel_overview_type_to_launch_enabled = true
 
     [shell.greeter_sync]
     auto_sync = true
