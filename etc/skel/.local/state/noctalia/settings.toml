@@ -112,10 +112,6 @@ directory = "~/Imagens/Wallpapers"
     [wallpaper.monitors.DP-1]
     path = "~/Imagens/Wallpapers/void_br_wallpaper_2047x1310.png"
 
-    [[wallpaper.favorite]]
-    path = "/usr/share/backgrounds/umbriel/void_br_wallpaper_2047x1310.png"
-    theme_mode = "dark"
-
 [weather]
 effects = true
 enabled = true
