@@ -127,10 +127,10 @@ size = 24
 "Mod+Ctrl+F" = { action = "window-toggle-maximize", repeat = false }          # Maximizar janela
 "Mod+R" = "window-cycle-primary-extent"                                       # Ajustar largura pré-definida
 "Mod+Shift+R" = "window-cycle-primary-extent-back"                            # Ajustar largura (sentido inverso)
-"Mod+Comma" = "window-consume-left"                                           # Agrupar à esquerda
-"Mod+Period" = "window-consume-right"                                         # Agrupar à direita
-"Mod+Shift+Comma" = "window-consume-or-expel-left"                           # Desagrupar / expulsar à esquerda
-"Mod+Shift+Period" = "window-consume-or-expel-right"                         # Desagrupar / expulsar à direita
+"Mod+Comma" = { action = "window-consume-left", repeat = false }                                           # Agrupar à esquerda
+"Mod+Period" = { action = "window-consume-right", repeat = false }                                         # Agrupar à direita
+"Mod+Shift+Comma" = { action = "window-consume-or-expel-left", repeat = false }                           # Desagrupar / expulsar à esquerda
+"Mod+Shift+Period" = { action = "window-consume-or-expel-right", repeat = false }                         # Desagrupar / expulsar à direita
 "Mod+W" = { action = "column-toggle-tabbed", repeat = false }                # Alternar abas/pilha (Tabbed)
 "Mod+bracketleft" = "column-focus-tab-previous"                              # Focar aba anterior
 "Mod+bracketright" = "column-focus-tab-next"                                 # Focar próxima aba
