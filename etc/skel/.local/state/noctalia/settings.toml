@@ -104,13 +104,13 @@ source = "wallpaper"
 directory = "~/Imagens/Wallpapers"
 
     [wallpaper.default]
-    path = "~/Imagens/Wallpapers/voidbr_noctalia_japanese_forest.webp"
+    path = "~/Imagens/Wallpapers/voidbr_dandelion.webp"
 
     [wallpaper.last]
-    path = "~/Imagens/Wallpapers/voidbr_noctalia_japanese_forest.webp"
+    path = "~/Imagens/Wallpapers/voidbr_dandelion.webp"
 
     [wallpaper.monitors.DP-1]
-    path = "~/Imagens/Wallpapers/voidbr_noctalia_japanese_forest.webp"
+    path = "~/Imagens/Wallpapers/voidbr_dandelion.webp"
 
 [weather]
 effects = true
