@@ -101,16 +101,20 @@ source = "wallpaper"
     builtin_ids = [ "umbriel" ]
 
 [wallpaper]
-directory = "~/Imagens/Wallpapers"
+directory = "/usr/share/backgrounds/umbriel"
 
     [wallpaper.default]
-    path = "~/Imagens/Wallpapers/voidbr_dandelion.webp"
+    path = "/usr/share/backgrounds/umbriel/voidbr_dandelion.webp"
 
     [wallpaper.last]
-    path = "~/Imagens/Wallpapers/voidbr_dandelion.webp"
+    path = "/usr/share/backgrounds/umbriel/voidbr_dandelion.webp"
 
     [wallpaper.monitors.DP-1]
-    path = "~/Imagens/Wallpapers/voidbr_dandelion.webp"
+    path = "/usr/share/backgrounds/umbriel/voidbr_dandelion.webp"
+
+    [[wallpaper.favorite]]
+    path = "/usr/share/backgrounds/umbriel/voidbr_dandelion.webp"
+    theme_mode = "dark"
 
 [weather]
 effects = true
