@@ -98,7 +98,8 @@ shell_mode = "dark"
 source = "wallpaper"
 
     [theme.templates]
-    builtin_ids = [ "umbriel" ]
+    builtin_ids = [ "umbriel", "foot", "gtk3", "gtk4", "qt", "kcolorscheme" ]
+    enable_builtin_templates = true
 
 [wallpaper]
 directory = "/usr/share/backgrounds/umbriel"
