@@ -130,6 +130,13 @@ size = 24
 "Mod+Period" = { action = "window-consume-right", repeat = false }                                         # Agrupar à direita
 "Mod+Shift+Comma" = { action = "window-consume-or-expel-left", repeat = false }                           # Desagrupar / expulsar à esquerda
 "Mod+Shift+Period" = { action = "window-consume-or-expel-right", repeat = false }                         # Desagrupar / expulsar à direita
+"Mod+Ctrl+Comma" = { action = "window-consume-from-left", repeat = false }                              # Puxar a janela da esquerda para esta coluna
+"Mod+Ctrl+Period" = { action = "window-consume-from-right", repeat = false }                            # Puxar a janela da direita para esta coluna
+# "Mod+Alt+T" = "layout-toggle-split"                                                                  # Alternar divisão horizontal/vertical (exige layout.mode = "dwindle")
+# Efeitos de borda (opcional): exigem um [effects.pool.borders] no [effects]; descomente junto com ele
+# "Mod+Shift+E" = "effect-border-cycle:borders"                                                        # Trocar para o próximo efeito de borda do grupo
+# "Mod+Ctrl+E" = "effect-border-toggle"                                                                # Ligar/desligar o efeito de borda
+# "Mod+Alt+E" = "effect-border-reset"                                                                  # Restaurar o efeito de borda original
 "Mod+W" = { action = "column-toggle-tabbed", repeat = false }                # Alternar abas/pilha (Tabbed)
 "Mod+bracketleft" = "column-focus-tab-previous"                              # Focar aba anterior
 "Mod+bracketright" = "column-focus-tab-next"                                 # Focar próxima aba
