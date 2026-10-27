@@ -1,0 +1,5 @@
+#!/bin/sh
+# Abre o wdisplays e, ao fechar, grava a configuração dos monitores no
+# config do Umbriel (o wdisplays sozinho só vale até o fim da sessão).
+wdisplays "$@"
+exec /usr/local/bin/umbriel-autoscale --save
