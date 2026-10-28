@@ -1,42 +1,212 @@
 #!/usr/bin/env python3
 # ==============================================================================
-# Umbriel Auto-Scale Daemon
-# Detecta monitores 2K (1440p) ou 4K e ajusta a escala automaticamente se estiver em 1.0
+# Umbriel Auto-Scale / Salvar monitores
+#
+#   umbriel-autoscale          (no boot) monitores sem bloco [output.*] ganham
+#                              escala automática: 2K -> 1.25, 4K -> 2.0
+#   umbriel-autoscale --save   grava o estado atual (modo, escala, posição,
+#                              rotação, ligado/desligado) de todos os monitores;
+#                              usado pelo voidbr-displays após fechar o wdisplays
+#
+# Tudo vai para ~/.config/umbriel/config.toml como [output."<make> <model> <serial>"].
+# Fica persistente: sobrevive a troca de TTY, hotplug e reinício, ao contrário
+# de `wlr-randr`/wdisplays, que só valem até a saída ser recriada. O Umbriel
+# recarrega o config sozinho. Comentários e demais chaves do arquivo são
+# preservados; no boot, monitores que já têm bloco nunca são alterados.
 # ==============================================================================
-import json
+import os
+import re
 import subprocess
-import time
 import sys
+import tempfile
+import time
 
-def autoscale():
-    try:
-        res = subprocess.run(["wlr-randr", "--json"], capture_output=True, text=True)
-        if res.returncode != 0 or not res.stdout:
-            return
-        outputs = json.loads(res.stdout)
-        for out in outputs:
-            if not out.get("enabled", False):
-                continue
-            name = out.get("name")
-            if not name:
-                continue
-            current_mode = None
-            for m in out.get("modes", []):
-                if m.get("current", False):
-                    current_mode = m
+CONFIG = os.path.join(
+    os.environ.get("XDG_CONFIG_HOME") or os.path.expanduser("~/.config"),
+    "umbriel", "config.toml",
+)
+
+
+def scale_for(width):
+    if width >= 3840:
+        return 2.0
+    if width >= 2560:
+        return 1.25
+    return None
+
+
+def fmt_num(v):
+    return str(int(v)) if abs(v - round(v)) < 0.005 else f"{v:.3f}".rstrip("0")
+
+
+def parse_outputs(text):
+    """Lê a saída de `umbriel outputs` e devolve uma lista de dicts."""
+    outputs = []
+    cur = None
+    for line in text.splitlines():
+        head = re.match(r'^(\S+) "', line)
+        if head:
+            cur = {"name": head.group(1), "enabled": False, "scale": 1.0,
+                   "config_name": None, "width": 0, "mode": None,
+                   "position": None, "transform": None}
+            outputs.append(cur)
+            continue
+        if cur is None:
+            continue
+        s = line.strip()
+        if s.startswith("Enabled:"):
+            cur["enabled"] = s.split(":", 1)[1].strip() == "yes"
+        elif s.startswith("Scale:"):
+            try:
+                cur["scale"] = float(s.split(":", 1)[1])
+            except ValueError:
+                pass
+        elif s.startswith("Config name:"):
+            m = re.search(r'"(.*)"', s)
+            cur["config_name"] = m.group(1) if m else None
+        elif s.startswith("Position:"):
+            m = re.match(r"Position:\s*(-?\d+),\s*(-?\d+)", s)
+            if m:
+                cur["position"] = [int(m.group(1)), int(m.group(2))]
+        elif s.startswith("Transform:"):
+            cur["transform"] = s.split(":", 1)[1].strip()
+        else:
+            m = re.match(r"^(\d+)x(\d+) @ ([\d.]+) Hz\b.*\bcurrent\b", s)
+            if m:
+                cur["width"] = int(m.group(1))
+                cur["mode"] = f"{m.group(1)}x{m.group(2)}@{fmt_num(float(m.group(3)))}"
+    return outputs
+
+
+def read_outputs():
+    for _ in range(10):
+        res = subprocess.run(["umbriel", "outputs"], capture_output=True, text=True)
+        if res.returncode == 0 and res.stdout.strip():
+            return parse_outputs(res.stdout)
+        time.sleep(0.5)
+    return []
+
+
+HEADER = re.compile(r'^\s*\[output\.(?:"([^"]+)"|([^\]\s]+))\]\s*(?:#.*)?$')
+ANY_HEADER = re.compile(r'^\s*\[')
+
+
+def find_block(lines, key):
+    """(início, fim) das linhas do bloco [output.<key>], ou None."""
+    for i, line in enumerate(lines):
+        m = HEADER.match(line)
+        if m and (m.group(1) or m.group(2)).lower() == key.lower():
+            end = len(lines)
+            for j in range(i + 1, len(lines)):
+                if ANY_HEADER.match(lines[j]):
+                    end = j
                     break
-            if not current_mode:
-                continue
-            width = current_mode.get("width", 0)
-            scale = out.get("scale", 1.0)
-            if scale == 1.0:
-                if width >= 3840:
-                    subprocess.run(["wlr-randr", "--output", name, "--scale", "2.0"])
-                elif width >= 2560:
-                    subprocess.run(["wlr-randr", "--output", name, "--scale", "1.25"])
+            return i, end
+    return None
+
+
+def set_keys(lines, key, values):
+    """Atualiza/insere chaves num bloco existente, ou cria o bloco no fim."""
+    blk = find_block(lines, key)
+    if blk is None:
+        name = key.replace("\\", "\\\\").replace('"', '\\"')
+        if lines and lines[-1].strip():
+            lines.append("")
+        lines.append(f'[output."{name}"]')
+        lines.extend(f"{k} = {v}" for k, v in values.items())
+        return
+    start, end = blk
+    # não engolir linhas em branco/comentários que separam do próximo bloco
+    while end > start + 1 and (not lines[end - 1].strip() or lines[end - 1].lstrip().startswith("#")):
+        end -= 1
+    pending = dict(values)
+    for i in range(start + 1, end):
+        m = re.match(r"^(\s*)(\w+)\s*=", lines[i])
+        if m and m.group(2) in pending:
+            lines[i] = f"{m.group(1)}{m.group(2)} = {pending.pop(m.group(2))}"
+    for k, v in pending.items():
+        lines.insert(end, f"{k} = {v}")
+        end += 1
+
+
+def block_keys(lines):
+    keys = set()
+    for line in lines:
+        m = HEADER.match(line)
+        if m:
+            keys.add((m.group(1) or m.group(2)).lower())
+    return keys
+
+
+def toml_values(out, with_state):
+    v = {}
+    if with_state:
+        if not out["enabled"]:
+            return {"enabled": "false"}
+        v["enabled"] = "true"
+        if out["mode"]:
+            v["mode"] = f'"{out["mode"]}"'
+        if out["position"]:
+            v["position"] = f'[{out["position"][0]}, {out["position"][1]}]'
+        if out["transform"]:
+            v["transform"] = f'"{out["transform"]}"'
+    return v
+
+
+def write_config(lines):
+    fd, tmp = tempfile.mkstemp(dir=os.path.dirname(CONFIG), prefix=".config.toml.")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines).rstrip("\n") + "\n")
+        os.chmod(tmp, os.stat(CONFIG).st_mode & 0o777)
+        os.replace(tmp, CONFIG)  # atômico; o Umbriel observa o arquivo
     except Exception:
-        pass
+        os.unlink(tmp)
+        raise
+
+
+def run(save):
+    if not os.path.isfile(CONFIG):
+        return
+    with open(CONFIG, encoding="utf-8") as f:
+        lines = f.read().splitlines()
+    used = block_keys(lines)
+    changed = False
+
+    for out in read_outputs():
+        ident = out["config_name"]
+        if not ident:
+            continue
+        if save:
+            # bloco por identidade vence; se só existe o do conector, atualiza ele
+            key = ident
+            if ident.lower() not in used and out["name"].lower() in used:
+                key = out["name"]
+            values = toml_values(out, True)
+            if out["enabled"]:
+                values["scale"] = fmt_num(out["scale"])
+        else:
+            if not out["enabled"] or out["name"].lower() in used or ident.lower() in used:
+                continue
+            auto = scale_for(out["width"])
+            if auto is None:
+                continue
+            key = ident
+            values = {"scale": fmt_num(out["scale"] if out["scale"] != 1.0 else auto)}
+        set_keys(lines, key, values)
+        used.add(key.lower())
+        changed = True
+
+    if changed:
+        write_config(lines)
+
 
 if __name__ == "__main__":
-    time.sleep(1.2)
-    autoscale()
+    save = "--save" in sys.argv[1:]
+    if not save:
+        time.sleep(1.2)
+    try:
+        run(save)
+    except Exception as e:
+        print(f"umbriel-autoscale: {e}", file=sys.stderr)
+        sys.exit(1)
