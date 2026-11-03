@@ -80,22 +80,22 @@ size = 24
 [keybinds]
 
 # --- Captura de Tela (PrintScreen) ---
-"Print" = { action = "spawn:captura_de_tela", repeat = false }
-"Shift+Print" = { action = "spawn:captura_de_tela_inteira", repeat = false }
+"Print" = { action = "spawn captura_de_tela", repeat = false }
+"Shift+Print" = { action = "spawn captura_de_tela_inteira", repeat = false }
 
 # --- Teclas Multimídia e Brilho (Fn) ---
-"XF86AudioRaiseVolume" = { action = "spawn:noctalia msg volume-up", repeat = true }
-"XF86AudioLowerVolume" = { action = "spawn:noctalia msg volume-down", repeat = true }
-"XF86AudioMute" = { action = "spawn:noctalia msg volume-mute", repeat = false }
-"XF86AudioMicMute" = { action = "spawn:noctalia msg mic-mute", repeat = false }
-"XF86MonBrightnessUp" = { action = "spawn:noctalia msg brightness-up", repeat = true }
-"XF86MonBrightnessDown" = { action = "spawn:noctalia msg brightness-down", repeat = true }
+"XF86AudioRaiseVolume" = { action = "spawn noctalia msg volume-up", repeat = true }
+"XF86AudioLowerVolume" = { action = "spawn noctalia msg volume-down", repeat = true }
+"XF86AudioMute" = { action = "spawn noctalia msg volume-mute", repeat = false }
+"XF86AudioMicMute" = { action = "spawn noctalia msg mic-mute", repeat = false }
+"XF86MonBrightnessUp" = { action = "spawn noctalia msg brightness-up", repeat = true }
+"XF86MonBrightnessDown" = { action = "spawn noctalia msg brightness-down", repeat = true }
 
 # --- Aplicativos, Sessão e Ajuda ---
-"Mod+Return" = { action = "spawn:foot", repeat = false }                      # Abrir terminal foot
-"Mod" = "spawn:noctalia msg panel-toggle launcher"                           # Super: menu de aplicativos
-"Mod+slash" = { action = "spawn:/usr/local/bin/voidbr-umbriel-shortcuts", repeat = false }        # Super + /: guia de atalhos
-"Mod+Shift+Slash" = { action = "spawn:/usr/local/bin/voidbr-umbriel-shortcuts", repeat = false }     # Super + ? (Shift + /): guia de atalhos
+"Mod+Return" = { action = "spawn foot", repeat = false }                      # Abrir terminal foot
+"Mod" = "spawn noctalia msg panel-toggle launcher"                           # Super: menu de aplicativos
+"Mod+slash" = { action = "spawn /usr/local/bin/voidbr-umbriel-shortcuts", repeat = false }        # Super + /: guia de atalhos
+"Mod+Shift+Slash" = { action = "spawn /usr/local/bin/voidbr-umbriel-shortcuts", repeat = false }     # Super + ? (Shift + /): guia de atalhos
 "Mod+Q" = { action = "window-close", repeat = false }                         # Fechar janela ativa
 "Mod+Escape" = "session-quit"                                                 # Sair da sessão
 "Mod+Shift+Escape" = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }
@@ -134,7 +134,7 @@ size = 24
 "Mod+Ctrl+Period" = { action = "window-consume-from-right", repeat = false }                            # Puxar a janela da direita para esta coluna
 # "Mod+Alt+T" = "layout-toggle-split"                                                                  # Alternar divisão horizontal/vertical (exige layout.mode = "dwindle")
 # Efeitos de borda (opcional): exigem um [effects.pool.borders] no [effects]; descomente junto com ele
-# "Mod+Shift+E" = "effect-border-cycle:borders"                                                        # Trocar para o próximo efeito de borda do grupo
+# "Mod+Shift+E" = "effect-border-cycle borders"                                                        # Trocar para o próximo efeito de borda do grupo
 # "Mod+Ctrl+E" = "effect-border-toggle"                                                                # Ligar/desligar o efeito de borda
 # "Mod+Alt+E" = "effect-border-reset"                                                                  # Restaurar o efeito de borda original
 "Mod+W" = { action = "column-toggle-tabbed", repeat = false }                # Alternar abas/pilha (Tabbed)
@@ -145,26 +145,26 @@ size = 24
 "Mod+O" = { action = "overview-toggle", repeat = false }                      # Visão Geral (Overview)
 
 # --- Espaços de Trabalho (Workspaces) ---
-"Mod+1" = "workspace-switch:1"
-"Mod+2" = "workspace-switch:2"
-"Mod+3" = "workspace-switch:3"
-"Mod+4" = "workspace-switch:4"
-"Mod+5" = "workspace-switch:5"
-"Mod+6" = "workspace-switch:6"
-"Mod+7" = "workspace-switch:7"
-"Mod+8" = "workspace-switch:8"
-"Mod+9" = "workspace-switch:9"
+"Mod+1" = "workspace-switch 1"
+"Mod+2" = "workspace-switch 2"
+"Mod+3" = "workspace-switch 3"
+"Mod+4" = "workspace-switch 4"
+"Mod+5" = "workspace-switch 5"
+"Mod+6" = "workspace-switch 6"
+"Mod+7" = "workspace-switch 7"
+"Mod+8" = "workspace-switch 8"
+"Mod+9" = "workspace-switch 9"
 
 # Mover janela ativa para outro espaço de trabalho
-"Mod+Shift+1" = "window-move-to-workspace:1"
-"Mod+Shift+2" = "window-move-to-workspace:2"
-"Mod+Shift+3" = "window-move-to-workspace:3"
-"Mod+Shift+4" = "window-move-to-workspace:4"
-"Mod+Shift+5" = "window-move-to-workspace:5"
-"Mod+Shift+6" = "window-move-to-workspace:6"
-"Mod+Shift+7" = "window-move-to-workspace:7"
-"Mod+Shift+8" = "window-move-to-workspace:8"
-"Mod+Shift+9" = "window-move-to-workspace:9"
+"Mod+Shift+1" = "window-move-to-workspace 1"
+"Mod+Shift+2" = "window-move-to-workspace 2"
+"Mod+Shift+3" = "window-move-to-workspace 3"
+"Mod+Shift+4" = "window-move-to-workspace 4"
+"Mod+Shift+5" = "window-move-to-workspace 5"
+"Mod+Shift+6" = "window-move-to-workspace 6"
+"Mod+Shift+7" = "window-move-to-workspace 7"
+"Mod+Shift+8" = "window-move-to-workspace 8"
+"Mod+Shift+9" = "window-move-to-workspace 9"
 
 # --- Scratchpad ---
 "Mod+Shift+Space" = { action = "window-move-to-scratchpad", repeat = false }  # Enviar ao scratchpad
